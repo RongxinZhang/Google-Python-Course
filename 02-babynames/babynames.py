@@ -40,29 +40,81 @@ def extract_names(filename):
   followed by the name-rank strings in alphabetical order.
   ['2006', 'Aaliyah 91', Aaron 57', 'Abagail 895', ' ...]
   """
-  # +++your code here+++
-  return
+  inFile = open(filename, 'r')
+  lines = []
+  for line in inFile:
+      lines.append(line)
 
+  return lines
+
+def findYear(lines):
+    for l in lines:
+        item = re.search('Popularity in ([0-9]+)', l)
+        if item != None and item.group(1) != None:
+            return item.group(1)
+
+def findRankAndNames(lines):
+    rankArr = []
+    for l in lines:
+        item = re.search('<tr align="right"><td>([0-9]+)</td><td>([\w]+)</td><td>([\w]+)</td>', l)
+        if item != None and item.group(1) !=  None:
+            rankArr.append(item.group(2) + " " + item.group(1))
+            rankArr.append(item.group(3) + " " + item.group(1))
+    return rankArr
+
+# def findRankAndNames(lines):
+#     rankDict = {}
+#     for l in lines:
+#         item = re.search('<tr align="right"><td>([0-9]+)</td><td>([\w]+)</td><td>([\w]+)</td>', l)
+#         if item != None and item.group(1) !=  None:
+#             rankDict[item.group(2)] =  item.group(1)
+#             rankDict[item.group(3)] = item.group(1)
+#     return rankDict
+
+def writeTo(fileName, content):
+    with open(fileName+'.summary','w') as f:
+        for c in content:
+            f.write(c + '\n')
 
 def main():
-  # This command-line parsing code is provided.
-  # Make a list of command line arguments, omitting the [0] element
-  # which is the script itself.
-  args = sys.argv[1:]
+    # This command-line parsing code is provided.
+    # Make a list of command line arguments, omitting the [0] element
+    # which is the script itself.
+    args = sys.argv[1:]
 
-  if not args:
-    print 'usage: [--summaryfile] file [file ...]'
-    sys.exit(1)
+    if not args:
+        print('usage: [--summaryfile] file [file ...]')
+        sys.exit(1)
 
-  # Notice the summary flag and remove it from args if it is present.
-  summary = False
-  if args[0] == '--summaryfile':
-    summary = True
-    del args[0]
+    # Notice the summary flag and remove it from args if it is present.
+    summary = False
+    fileName = ""
+
+
+    if args[0] == '--summaryfile':
+        summary = True
+        del args[0]
+
+    if args[0] != None:
+        fileName = args[0]
+
+    print(fileName)
+    lines = extract_names(fileName)
+    year = findYear(lines)
+    nameDict = findRankAndNames(lines)
+    toWrite = [year] + sorted(nameDict)
+    if summary:
+        writeTo(fileName, toWrite)
+    else:
+        print(year)
+        print(sorted(nameDict))
+
+
+
 
   # +++your code here+++
   # For each filename, get the names, then either print the text output
   # or write it to a summary file
-  
+
 if __name__ == '__main__':
-  main()
+    main()
