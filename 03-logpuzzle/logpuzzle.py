@@ -9,7 +9,8 @@
 import os
 import re
 import sys
-import urllib
+import errno
+import urllib.request
 
 """Logpuzzle exercise
 Given an apache logfile, find the puzzle urls and download the images.
@@ -20,12 +21,29 @@ Here's what a puzzle url looks like:
 
 
 def read_urls(filename):
-  """Returns a list of the puzzle urls from the given log file,
-  extracting the hostname from the filename itself.
-  Screens out duplicate urls and returns the urls sorted into
-  increasing order."""
-  # +++your code here+++
-  
+    """Returns a list of the puzzle urls from the given log file,
+    extracting the hostname from the filename itself.
+    Screens out duplicate urls and returns the urls sorted into
+    increasing order."""
+
+    # NOTE: Hostname not longer exists
+    hostName = 'http://'+ filename
+
+    inFile = open(filename, 'r')
+    urlList = []
+    for line in inFile:
+        match = re.search(r'"GET ([\S]+.jpg)', line)
+        if match and match.group(1) not in urlList:
+            urlList.append(match.group(1))
+
+    for i, url in enumerate(urlList):
+        urlList[i] = hostName + url
+
+    # # NOTE: TEMP IMAGE
+    urlList = ['http://a.abcnews.com/images/Business/GTY_stock_cash_pile_money_dollar_bills-thg-130726_33x16_1600.jpg']
+
+    return sorted(urlList)
+
 
 def download_images(img_urls, dest_dir):
   """Given the urls already in the correct order, downloads
@@ -35,27 +53,53 @@ def download_images(img_urls, dest_dir):
   with an img tag to show each local image file.
   Creates the directory if necessary.
   """
-  # +++your code here+++
-  
+  for i, url in enumerate(img_urls):
+    match = re.search('(\.[\w]+$)', url)
+    fileExt = '.jpg'
+
+    if match and match.group(1): fileExt = match.group(1)
+
+    directory = './' + dest_dir + '/img_' + str(i) + fileExt
+
+    urllib.request.urlretrieve(url, directory)
+
+def createHTML(htmlFile, images):
+    imgs = ""
+    for i in images:
+        imgs = imgs + '<img src="{}">'.format(i)
+
+    template = '<verbatim>  <html> <body> ' + imgs + ' </body>  </html>'
+
+    with open(htmlFile,'w') as f:
+        f.write(template + '\n')
 
 def main():
-  args = sys.argv[1:]
+    args = sys.argv[1:]
 
-  if not args:
-    print 'usage: [--todir dir] logfile '
-    sys.exit(1)
+    if not args:
+        print('usage: [--todir dir] logfile ')
+        sys.exit(1)
 
-  todir = ''
-  if args[0] == '--todir':
-    todir = args[1]
-    del args[0:2]
+    todir = ''
+    if args[0] == '--todir':
+        todir = args[1]
+        del args[0:2]
 
-  img_urls = read_urls(args[0])
+    img_urls = read_urls(args[0])
 
-  if todir:
-    download_images(img_urls, todir)
-  else:
-    print '\n'.join(img_urls)
+
+    if todir:
+        try:
+          os.makedirs(todir)
+        except OSError as e:
+          if e.errno != errno.EEXIST:
+              raise
+
+        download_images(img_urls, todir)
+    else:
+        fileName ='imageDisplay.html'
+        createHTML(fileName, img_urls)
+        print("HTML file created: {}".format(fileName))
 
 if __name__ == '__main__':
   main()
