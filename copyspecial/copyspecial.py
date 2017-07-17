@@ -45,7 +45,8 @@ def copy_to(paths, toDir):
           if e.errno != errno.EEXIST:
               raise
 
-    # shutil.copy()
+    for i in paths:
+        shutil.copy(i, toDir)
 
 
 def zip_to(paths, zippath):
@@ -55,8 +56,8 @@ def zip_to(paths, zippath):
 # Write functions and modify main() to call them
 
 def main():
-    # print(get_special_paths('./'))
-    copy_to([], './test')
+    files = get_special_paths('./')
+    copy_to(files, './test')
   # This basic command line argument parsing code is provided.
   # Add code to call your functions below.
 
