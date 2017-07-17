@@ -10,15 +10,24 @@ import sys
 import re
 import os
 import shutil
-import commands
+import subprocess
 
 """Copy Special exercise
 """
 
+def get_special_paths(dir):
+    absPath = ""
+    
+    return absPath
+
+def copy_to(paths, dir):
+    pass
+
+def zip_to(paths, zippath):
+    pass
+
 # +++your code here+++
 # Write functions and modify main() to call them
-
-
 
 def main():
   # This basic command line argument parsing code is provided.
@@ -50,6 +59,6 @@ def main():
 
   # +++your code here+++
   # Call your functions
-  
+
 if __name__ == "__main__":
   main()
