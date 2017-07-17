@@ -87,7 +87,6 @@ def main():
 
     img_urls = read_urls(args[0])
 
-
     if todir:
         try:
           os.makedirs(todir)
