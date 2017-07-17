@@ -22,7 +22,9 @@ Completed on: 07/17/2017
 ```sh
 #Copy below commands and run in terminal
 (cd ./basic && python wordcount.py --count alice.txt)
+4
 # OR
+
 (cd ./basic && python wordcount.py --topcount alice.txt)
 ```
 
@@ -31,11 +33,11 @@ Completed on: 07/17/2017
 
 ```sh
 #Copy below commands and run in terminal
-(cd ./babynames && python babynames.py --summaryfile baby1992.html)
+(cd ./babynames && python babynames.py baby1992.html)
 
 # OR
 
-(cd ./babynames && python babynames.py --summaryfile baby2006.html)
+(cd ./babynames && python babynames.py --summaryfile baby2006.html && cat baby2006.html.summary)
 ```
 
 #### Part 3: CopySpecial:
