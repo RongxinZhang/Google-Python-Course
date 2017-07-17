@@ -99,7 +99,7 @@ def main():
         fileName = args[0]
 
     print(fileName)
-    lines = extract_names(fileName)
+    lines = extract_names('./html/' + fileName)
     year = findYear(lines)
     nameDict = findRankAndNames(lines)
     toWrite = [year] + sorted(nameDict)
