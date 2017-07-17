@@ -50,43 +50,56 @@ def copy_to(paths, toDir):
 
 
 def zip_to(paths, zippath):
-    pass
 
-# +++your code here+++
+    if not os.path.isdir(zippath):
+        print("No such Director: {}".format(zippath))
+        return
+
+    args = ['zip','-j', zippath]
+
+    for p in paths:
+        args.append(p)
+
+    subprocess.call(args)
+
 # Write functions and modify main() to call them
 
 def main():
-    files = get_special_paths('./')
-    copy_to(files, './test')
   # This basic command line argument parsing code is provided.
   # Add code to call your functions below.
 
   # Make a list of command line arguments, omitting the [0] element
   # which is the script itself.
-  # args = sys.argv[1:]
-  # if not args:
-  #   print "usage: [--todir dir][--tozip zipfile] dir [dir ...]";
-  #   sys.exit(1)
-  #
-  # # todir and tozip are either set from command line
-  # # or left as the empty string.
-  # # The args array is left just containing the dirs.
-  # todir = ''
-  # if args[0] == '--todir':
-  #   todir = args[1]
-  #   del args[0:2]
-  #
-  # tozip = ''
-  # if args[0] == '--tozip':
-  #   tozip = args[1]
-  #   del args[0:2]
-  #
-  # if len(args) == 0:
-  #   print "error: must specify one or more dirs"
-  #   sys.exit(1)
+  args = sys.argv[1:]
+  if not args:
+    print("usage: [--todir dir][--tozip zipfile] dir [dir ...]")
+    sys.exit(1)
 
-  # +++your code here+++
-  # Call your functions
+  # todir and tozip are either set from command line
+  # or left as the empty string.
+  # The args array is left just containing the dirs.
+  todir = ''
+  if args[0] == '--todir':
+    todir = args[1]
+    print(args[1])
+    del args[0:1]
+
+  tozip = ''
+  if args[0] == '--tozip':
+    tozip = args[1]
+    del args[0:1]
+
+  if len(args) == 0:
+    print("error: must specify one or more dirs")
+    sys.exit(1)
+
+  files = get_special_paths('./')
+
+  if todir:
+      copy_to(files, todir)
+
+  if tozip:
+      zip_to(files, tozip)
 
 if __name__ == "__main__":
   main()
