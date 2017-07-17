@@ -55,7 +55,7 @@ def zip_to(paths, zippath):
         print("No such Director: {}".format(zippath))
         return
 
-    args = ['zip','-j', zippath]
+    args = ['zip','-j', zippath + 'temp.zip']
 
     for p in paths:
         args.append(p)
