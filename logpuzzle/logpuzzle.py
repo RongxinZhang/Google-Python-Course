@@ -95,7 +95,7 @@ def main():
               raise
 
         download_images(img_urls, todir)
-    else:
+        
         fileName ='imageDisplay.html'
         createHTML(fileName, img_urls)
         print("HTML file created: {}".format(fileName))
