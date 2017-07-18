@@ -40,11 +40,14 @@ Completed on : 07/17/2017
 
 ```sh
 #Copy below commands and run in terminal
+# Print out baby names and rank
 (cd ./babynames && python babynames.py baby1992.html)
 
-# OR
-
+# Create .summary file with babynames and rank
 (cd ./babynames && python babynames.py --summaryfile baby2006.html && open -a textedit baby2006.html.summary)
+
+# Create .summary file for babynames and rank in all years
+(cd ./babynames && python babynames.py --summaryfile baby*.html)
 ```
 
 #### Part 3: CopySpecial:
