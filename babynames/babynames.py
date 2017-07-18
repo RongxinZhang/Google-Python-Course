@@ -8,6 +8,7 @@
 
 import sys
 import re
+import os
 
 """Baby Names exercise
 
@@ -88,33 +89,34 @@ def main():
 
     # Notice the summary flag and remove it from args if it is present.
     summary = False
-    fileName = ""
-
+    fileNames = []
+    htmlDir = './html/'
 
     if args[0] == '--summaryfile':
         summary = True
         del args[0]
 
     if args[0] != None:
-        fileName = args[0]
+        item = re.match(r'.+\*', args[0])
+        if item and item.group(0):
+            allFiles = os.listdir(htmlDir)
+            fileNames = allFiles
+        else:
+            fileNames = args
 
-    print(fileName)
-    lines = extract_names('./html/' + fileName)
-    year = findYear(lines)
-    nameDict = findRankAndNames(lines)
-    toWrite = [year] + sorted(nameDict)
-    if summary:
-        writeTo(fileName, toWrite)
-    else:
-        print(year)
-        print(sorted(nameDict))
+    for f in fileNames:
+        lines = extract_names(htmlDir + f)
+        year = findYear(lines)
+        nameDict = findRankAndNames(lines)
+        toWrite = [year] + sorted(nameDict)
 
-
-
-
-  # +++your code here+++
-  # For each filename, get the names, then either print the text output
-  # or write it to a summary file
+        if summary:
+            writeTo(f, toWrite)
+            print('summary file created for year: {}'.format(year))
+        else:
+            print('---'+year+'---')
+            for n in nameDict:
+                print(n)
 
 if __name__ == '__main__':
     main()
