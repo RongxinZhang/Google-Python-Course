@@ -5,7 +5,14 @@ Link: https://developers.google.com/edu/python/
 
 ## Completed exercises
 
-Completed on: 07/17/2017
+Started on   : 07/10/2017
+
+Completed on : 07/17/2017
+
+## How to run
+- Make sure you are in the root director of the project.
+- Then copy the commands for each exercise into your terminal without changing directories.
+
 
 #### Part 1: Basic
 - [x] string1.py
@@ -22,7 +29,7 @@ Completed on: 07/17/2017
 ```sh
 #Copy below commands and run in terminal
 (cd ./basic && python wordcount.py --count alice.txt)
-4
+
 # OR
 
 (cd ./basic && python wordcount.py --topcount alice.txt)
@@ -37,7 +44,7 @@ Completed on: 07/17/2017
 
 # OR
 
-(cd ./babynames && python babynames.py --summaryfile baby2006.html && cat baby2006.html.summary)
+(cd ./babynames && python babynames.py --summaryfile baby2006.html && open -a textedit baby2006.html.summary)
 ```
 
 #### Part 3: CopySpecial:
@@ -57,5 +64,5 @@ Completed on: 07/17/2017
 
 ```sh
 #Copy below commands and run in terminal
-(cd ./logpuzzle && python logpuzzle.py --todir images  animal_code.google.com)
+(cd ./logpuzzle && python logpuzzle.py --todir images  animal_code.google.com && open imageDisplay.html)
 ```
